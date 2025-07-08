@@ -1,6 +1,6 @@
 <config-template xmlns="http://tail-f.com/ns/config/1.0">
   <devices xmlns="http://tail-f.com/ns/ncs">
-    <?foreach {/site}?>
+    <?foreach {/sitee}?>
     <?save-context current-site?>
     <?set vpn-name = {../vpn-name}?>
     <device>
@@ -16,7 +16,7 @@
                   <import>
                     <route-target>
                       <address-list>
-                        <name>64497:{$vlan-id}</name>
+                        <name>64497:{$vlan-id}
                       </address-list>
                     </route-target>
                   </import>
