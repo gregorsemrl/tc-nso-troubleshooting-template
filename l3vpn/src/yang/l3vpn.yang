@@ -1,0 +1,186 @@
+module l3vpn {
+
+  namespace "http://cisco.com/example/l3vpn";
+  prefix l3vpn;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "L3VPN Service Package";
+
+  revision 2025-01-01 {
+    description
+      "Initial revision.";
+  }
+
+  identity l3vpn {
+    base ncs:plan-component-type;
+  }
+
+  identity vlan-allocated {
+    base ncs:plan-state;
+  }
+
+  identity l3vpn-configured {
+    base ncs:plan-state;
+  }
+
+  ncs:plan-outline l3vpn-plan {
+    description "L3 VPN Plan";
+    
+    ncs:component-type "ncs:self" {
+      ncs:state "ncs:init";
+      ncs:state "ncs:ready";
+    }
+    
+    ncs:component-type "l3vpn:l3vpn" {
+      ncs:state "ncs:init";
+      ncs:state "l3vpn:vlan-allocated" {
+        ncs:create {
+          ncs:nano-callback;
+        }
+      }
+      ncs:state "l3vpn:l3vpn-configured" {
+        ncs:create {
+          ncs:nano-callback;
+        }
+      }
+      ncs:state "ncs:ready";
+    }
+  }
+
+ncs:service-behavior-tree l3vpn-servicepoint {
+  description "L3 VPN behavior tree";
+    ncs:plan-outline-ref "l3vpn:l3vpn-plan";
+    ncs:selector {
+      ncs:create-component "'self'" {
+        ncs:component-type-ref "ncs:self";
+      }
+      ncs:create-component "'l3vpn'" {
+        ncs:component-type-ref "l3vpn:l3vpn";
+    }
+  }
+}
+
+  list l3vpn { 
+    key vpn-name; 
+
+    uses ncs:service-data; 
+    uses ncs:nano-plan-data;
+    ncs:servicepoint "l3vpn-servicepoint"; 
+
+    leaf vpn-name { 
+      type string; 
+    } 
+     
+
+    list site { 
+      key site-name; 
+      description "Each site is configured with PE and CE specific parameters"; 
+
+      leaf site-name { 
+        tailf:info "Specify a name for a vpn site"; 
+        type string; 
+      } 
+
+      container pe { 
+        tailf:info "Enter Provider Edge (PE) device specific configuration."; 
+
+        leaf device {  
+          type leafref { 
+            path "/ncs:devices/ncs:device/ncs:name"; 
+          } 
+	      } 
+         
+        leaf interface-to-ce { 
+          tailf:info "Customer-facing interface on the selected PE router"; 
+          type string; 
+        } 
+
+        leaf address { 
+          tailf:info "PE IP address on the customer-facing interface"; 
+          type inet:ipv4-address; 
+        } 
+         
+        container routing { 
+          leaf-list static { 
+            tailf:info "Static IPv4 prefixes pointing towards CE router from PE router."; 
+            type inet:ip-prefix; 
+          } 
+          leaf bgp { 
+            tailf:info "Enable BGP between CE and PE router."; 
+            type boolean; 
+          } 
+          container redistribute { 
+            when "../bgp"; 
+            leaf connected { 
+              type empty; 
+            } 
+            leaf static { 
+              type empty; 
+            } 
+          } 
+        } 
+      } 
+
+      container ce { 
+        description "Customer Edge specific configuration"; 
+
+        leaf device { 
+          tailf:info "Select the CE Router."; 
+          type leafref { 
+            path "/ncs:devices/ncs:device/ncs:name"; 
+          } 
+        } 
+
+        leaf interface-to-pe { 
+          tailf:info "Provider-facing Interface on the selected CE router."; 
+          type string; 
+        } 
+
+        leaf address { 
+          tailf:info "CE IP address on the provider-facing interface."; 
+          type inet:ipv4-address; 
+        } 
+
+        leaf asn { 
+          type uint32; 
+        } 
+         
+        container routing { 
+          leaf bgp { 
+            type boolean; 
+          } 
+          list network { 
+            key "address mask"; 
+            leaf address { 
+              type inet:ipv4-address; 
+            } 
+            leaf mask { 
+              type inet:ipv4-address; 
+            } 
+          } 
+
+          list static { 
+            key "prefix mask"; 
+            tailf:info "Static IPv4 and IPv6 routes pointing to MPLS VPN from CE router."; 
+            leaf prefix { 
+              type inet:ipv4-address; 
+            } 
+            leaf mask { 
+              type inet:ipv4-address; 
+            } 
+          } 
+        } 
+      } 
+    } 
+  } 
+}

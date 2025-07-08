@@ -1,0 +1,72 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>core-rtr01</name>
+      <address>10.10.20.173</address>
+      <ssh>
+        <host-key-verification>none</host-key-verification>
+      </ssh>
+      <authgroup>labadmin</authgroup>
+      <device-type>
+        <cli>
+          <ned-id xmlns:cisco-iosxr-cli-7.45="http://tail-f.com/ns/ned-id/cisco-iosxr-cli-7.45">cisco-iosxr-cli-7.45:cisco-iosxr-cli-7.45</ned-id>
+          <protocol>telnet</protocol>
+        </cli>
+      </device-type>
+      <state>
+        <admin-state>unlocked</admin-state>
+      </state>
+    </device>
+    <device>
+      <name>dev-core-rtr01</name>
+      <address>10.10.20.174</address>
+      <ssh>
+        <host-key-verification>none</host-key-verification>
+      </ssh>
+      <authgroup>labadmin</authgroup>
+      <device-type>
+        <cli>
+          <ned-id xmlns:cisco-iosxr-cli-7.45="http://tail-f.com/ns/ned-id/cisco-iosxr-cli-7.45">cisco-iosxr-cli-7.45:cisco-iosxr-cli-7.45</ned-id>
+          <protocol>telnet</protocol>
+        </cli>
+      </device-type>
+      <state>
+        <admin-state>unlocked</admin-state>
+      </state>
+    </device>	
+    <device>
+      <name>dist-rtr01</name>
+      <address>10.10.20.175</address>
+      <ssh>
+        <host-key-verification>none</host-key-verification>
+      </ssh>
+      <authgroup>labadmin</authgroup>
+      <device-type>
+        <cli>
+          <ned-id xmlns:cisco-ios-cli-6.91="http://tail-f.com/ns/ned-id/cisco-ios-cli-6.91">cisco-ios-cli-6.91:cisco-ios-cli-6.91</ned-id>
+          <protocol>telnet</protocol>
+        </cli>
+      </device-type>
+      <state>
+        <admin-state>unlocked</admin-state>
+      </state>
+    </device>
+    <device>
+      <name>dev-dist-rtr01</name>
+      <address>10.10.20.176</address>
+      <ssh>
+        <host-key-verification>none</host-key-verification>
+      </ssh>
+      <authgroup>labadmin</authgroup>
+      <device-type>
+        <cli>
+          <ned-id xmlns:cisco-ios-cli-6.91="http://tail-f.com/ns/ned-id/cisco-ios-cli-6.91">cisco-ios-cli-6.91:cisco-ios-cli-6.91</ned-id>
+          <protocol>telnet</protocol>
+        </cli>
+      </device-type>
+      <state>
+        <admin-state>unlocked</admin-state>
+      </state>
+    </device>	
+  </devices>
+</config>

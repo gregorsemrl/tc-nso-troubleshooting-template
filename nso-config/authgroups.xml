@@ -1,0 +1,14 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <authgroups>
+      <group>
+        <name>labadmin</name>
+        <default-map>
+          <remote-name>cisco</remote-name>
+          <remote-password>$9$ISpEpquIIvCrAebgDwgt91sQb6lUw2wQ6vlvDhOaxF4=</remote-password>
+          <remote-secondary-password>$9$1F4zqTmOriMRbGH5/RQFZLCPyH9ZF3+IubQGaXF9v5M=</remote-secondary-password>
+        </default-map>
+      </group>
+    </authgroups>
+  </devices>
+</config>

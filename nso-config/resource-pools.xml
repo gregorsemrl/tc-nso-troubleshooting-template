@@ -1,0 +1,11 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <resource-pools xmlns="http://tail-f.com/pkg/resource-allocator">
+    <id-pool xmlns="http://tail-f.com/pkg/id-allocator">
+      <name>l3vpn-vlan</name>
+      <range>
+        <start>200</start>
+        <end>300</end>
+      </range>
+    </id-pool>
+  </resource-pools>
+</config>
